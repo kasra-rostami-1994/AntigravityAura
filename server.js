@@ -61,14 +61,16 @@ const User = mongoose.model('User', UserSchema);
 const Post = mongoose.model('Post', PostSchema);
 
 // Connect to MongoDB & seed Super Admin
-mongoose.connect(MONGO_URI)
+// serverSelectionTimeoutMS: fail fast (8s) instead of hanging until Vercel's
+// own function timeout kills the request with an unhelpful 504.
+mongoose.connect(MONGO_URI, { serverSelectionTimeoutMS: 8000 })
   .then(async () => {
     console.log('✅ Connected successfully to MongoDB Atlas');
     await seedSuperAdmin();
   })
   .catch((err) => {
-    console.error('❌ Local MongoDB Connection Error:', err.message);
-    console.log('⚠️ Check your MongoDB Atlas URI, username, password or IP whitelist.');
+    console.error('❌ MongoDB Connection Error:', err.name, '-', err.message);
+    console.log('⚠️ Check your MongoDB Atlas URI, username, password, or IP whitelist.');
   });
 
 async function seedSuperAdmin() {
