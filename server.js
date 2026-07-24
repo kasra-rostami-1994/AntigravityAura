@@ -6,8 +6,6 @@
 
 require('dotenv').config();
 
-console.log("ENV:", process.env.MONGO_URI);
-
 const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
@@ -99,7 +97,7 @@ async function seedSuperAdmin() {
         activities: [{ title: 'Super Admin account seeded', timestamp: new Date() }]
       });
       await admin.save();
-      console.log('👑 Super Admin created: rkasra18 / K920771018!');
+      console.log('👑 Super Admin account created/verified.');
     } else {
       admin.role = 'Super Admin';
       admin.username = adminUsername;
@@ -589,6 +587,12 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 AuraAuth Server listening on http://localhost:${PORT}`);
-});
+// Only start a persistent listener when run directly (local dev / traditional host).
+// On Vercel, this file is required by api/index.js and the app is exported instead.
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`🚀 AuraAuth Server listening on http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;
