@@ -3,6 +3,8 @@
  * MongoDB: Users, Posts, Admin Management, Social Features
  */
 
+require('dotenv').config();
+
 const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
@@ -12,8 +14,8 @@ const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-const JWT_SECRET = 'aura_secure_jwt_token_secret_key_2026';
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/aura_db';
+const JWT_SECRET = process.env.JWT_SECRET;
+const MONGO_URI = process.env.MONGO_URI;
 
 app.use(cors());
 app.use(express.json({ limit: '10mb' })); // allow base64 image payloads
@@ -60,12 +62,12 @@ const Post = mongoose.model('Post', PostSchema);
 // Connect to MongoDB & seed Super Admin
 mongoose.connect(MONGO_URI)
   .then(async () => {
-    console.log('✅ Connected successfully to Local MongoDB at:', MONGO_URI);
+    console.log('✅ Connected successfully to MongoDB Atlas');
     await seedSuperAdmin();
   })
   .catch((err) => {
     console.error('❌ Local MongoDB Connection Error:', err.message);
-    console.log('⚠️  Please ensure local MongoDB service is running (mongod).');
+    console.log('⚠️ Check your MongoDB Atlas URI, username, password or IP whitelist.');
   });
 
 async function seedSuperAdmin() {
