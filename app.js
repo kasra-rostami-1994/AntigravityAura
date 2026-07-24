@@ -5,7 +5,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  const API = 'http://localhost:5000/api';
+  const API = 'https://kasrarostami.ir/api';
   const TOKEN_KEY = 'aura_jwt_token';
   const THEME_KEY = 'aura_theme_pref';
 
