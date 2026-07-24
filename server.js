@@ -3,7 +3,10 @@
  * MongoDB: Users, Posts, Admin Management, Social Features
  */
 
+
 require('dotenv').config();
+
+console.log("ENV:", process.env.MONGO_URI);
 
 const express = require('express');
 const mongoose = require('mongoose');
