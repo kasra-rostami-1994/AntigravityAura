@@ -63,7 +63,7 @@ const Post = mongoose.model('Post', PostSchema);
 // Connect to MongoDB & seed Super Admin
 // serverSelectionTimeoutMS: fail fast (8s) instead of hanging until Vercel's
 // own function timeout kills the request with an unhelpful 504.
-mongoose.connect(MONGO_URI, { serverSelectionTimeoutMS: 8000 })
+mongoose.connect(MONGO_URI, { serverSelectionTimeoutMS: 5000 })
   .then(async () => {
     console.log('✅ Connected successfully to MongoDB Atlas');
     await seedSuperAdmin();
